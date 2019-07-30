@@ -2,4 +2,5 @@
 tox-travis>=0.10
 codecov>=2.0.9
 
+-r test.txt
 -r tox.txt

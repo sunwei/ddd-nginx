@@ -1,16 +1,15 @@
 language: python
 sudo: false
 python:
-- '2.7'
 - '3.4'
 - '3.5'
 - '3.6'
 install:
-- pip install python-coveralls tox tox-travis
+- pip install -r requirements/base.txt
+- pip install -r requirements/ci.txt
 script: tox --recreate
 after_success:
-- pip install -r requirements.txt -e .
-- py.test --cov=ddd_api_gateway --cov-report=term-missing tests
+- py.test --cov=ddd_nginx --cov-report=term-missing tests
 - coveralls
 deploy:
   provider: pypi
@@ -18,5 +17,5 @@ deploy:
   password:
     secure: EDcJhXFf3WUzBfuHCauPExSZXYiyKh9RN3D4poUC0uuLhsHkF/ZmXjX+5dlu8bxx3w6M2HJ/UZmrwYwYgpF/lAfKySTQadRRhQEb51eCewnP5aUUkNqDUIx8pMSryde2+u/8ulmTxZt1+fesIulI7xeYsGBNgUPDigD4fpI0PPHEX+hHSah+TAmGFIg6s+5imQi07+eWZwvSAlHXzP8myFsVIAs0z+Ltdsed6Y1PpPd8Dr5qXY1soTEtVN8aNC5lqJUp/JJ1TilJyENn7JU2qlTR813DkWS+8YbyXBBxA2VrO9Z/7tGTecy6WGgLbb0aEIwhyKB8y59iaLlFnRvQCqm50dPbZ39q0CvrPtlITyNj3jHqrWIPEHVSKb8a9V+upHVKW6Cu+mM999tB01ZACH7eG0xqJEiPx3QBDl4juyrpj5auTtoHvYHQUg4vxyyz5zFwhpIpJuMZ0Pr7FY6cPAdcVCKMJdE2koeQYimOT5LLQ5cGyPhY/AaSkLkH8zDI//Ydggu4nQWDEXMzueX+7agJRfFgc6WkCjDlsOLM2+sNQf2Sd2DxF4hkQxgcmASb/JoSEFOmW80guNAzqtMmJnSW9r4mmTsJHLcUg1FPLiMf1pFq+D09VlWcw2eWP8fT2i5e89Zvo1ZpPL57y87utLcCPQtXm2IzS1RImL7W/B4=
   on:
-    python: 2.7
+    python: 3.6
   skip_existing: true

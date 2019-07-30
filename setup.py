@@ -14,6 +14,9 @@ ABOUT = {}
 with open(os.path.join(HERE, 'ddd_nginx', '__version__.py')) as f:
     exec(f.read(), ABOUT)
 
+with open(os.path.join(HERE, 'requirements', 'base.txt')) as req:
+    REQUIREMENTS = [line.strip() for line in req.readlines() if line.strip() and not line.strip().startswith('#')]
+
 CLASSIFIERS = [
     'Development Status :: 4 - Beta',
     'Intended Audience :: Developers',
@@ -21,7 +24,6 @@ CLASSIFIERS = [
     'Natural Language :: English',
     'Operating System :: OS Independent',
     'Programming Language :: Python',
-    'Programming Language :: Python :: 2.7',
     'Programming Language :: Python :: 3.4',
     'Programming Language :: Python :: 3.5',
     'Programming Language :: Python :: 3.6',
@@ -38,11 +40,11 @@ long_description = (
 setup(
     name='ddd-nginx',
     version=ABOUT['__version__'],
-    description='DDD base framework for python',
+    description='DDD nginx framework for python',
     long_description=long_description,
     author='Sun Wei',
     author_email='wayde.sun@gmail.com',
     url='https://github.com/sunwei/ddd-nginx',
     packages=find_packages(exclude=['tests*']),
-    install_requires=[],
+    install_requires=REQUIREMENTS,
     classifiers=CLASSIFIERS)

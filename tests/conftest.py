@@ -22,3 +22,13 @@ def map_empty_conf():
 @pytest.fixture(name='map_conf')
 def map_conf():
     return _get_test_data('map.conf')
+
+
+@pytest.fixture(name='location_api')
+def location_api():
+    return _get_test_data('location-api.conf')
+
+
+@pytest.fixture(name='location_policy')
+def location_policy():
+    return _get_test_data('location-policy.conf')

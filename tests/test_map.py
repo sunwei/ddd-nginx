@@ -24,7 +24,7 @@ def test_compare_map():
 def test_dump_empty(map_empty_conf):
     a_map = Map(MapDefinition(key="$key", value="$value"))
 
-    assert a_map.dump("api_keys.conf.jinja2", {
+    assert a_map.dump("maps.conf.jinja2", {
         "key_name": a_map.definition.key,
         "value_name": a_map.definition.value,
         "key_pairs": a_map.key_pairs
@@ -38,7 +38,7 @@ def test_dump(map_conf):
     a_map.append(MapKeyParis("k2", "v2"))
     a_map.append(MapKeyParis("k3", "v3"))
 
-    assert a_map.dump("api_keys.conf.jinja2", {
+    assert a_map.dump("map.conf.jinja2", {
         "key_name": a_map.definition.key,
         "value_name": a_map.definition.value,
         "key_pairs": a_map.key_pairs

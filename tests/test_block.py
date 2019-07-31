@@ -14,9 +14,9 @@ def test_set_var():
 
 
 @pytest.mark.usefixtures("map_empty_conf")
-def test_dump_empty(map_empty_conf):
+def test_dump(map_empty_conf):
     a_block = Block()
-    assert a_block.dump("api_keys.conf.jinja2", {
+    assert a_block.dump("map.conf.jinja2", {
         "key_name": "$key",
         "value_name": "$value",
         "key_pairs": []

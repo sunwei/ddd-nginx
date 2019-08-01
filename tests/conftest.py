@@ -37,3 +37,8 @@ def location_policy():
 @pytest.fixture(name='upstream_conf')
 def upstream_conf():
     return _get_test_data('upstream.conf')
+
+
+@pytest.fixture(name='server_conf')
+def server_conf():
+    return _get_test_data('server.conf')

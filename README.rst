@@ -47,6 +47,33 @@ Usage
 
 
 
+Nginx Hierarchical
+------------------
+
+::
+
+.
+├── nginx.conf
+├── _conf.d
+|   └── default.conf
+├── api_gateway.conf
+├── api_gateway_conf.d
+|   ├── footer.html
+|   └── header.html
+├── _layouts
+|   ├── default.html
+|   └── post.html
+├── _posts
+|   ├── 2007-10-29-why-every-programmer-should-play-nethack.md
+|   └── 2009-04-26-barcamp-boston-4-roundup.md
+├── _sass
+|   ├── _base.scss
+|   └── _layout.scss
+├── _site
+├── .jekyll-metadata
+└── index.html # can also be an 'index.md' with valid YAML Frontmatter
+
+
 License
 -------
 

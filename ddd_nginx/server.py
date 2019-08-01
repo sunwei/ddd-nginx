@@ -4,15 +4,11 @@ from ddd_base import Entity
 from .block import Block
 
 
-class Server(Block, Entity):
+class Server(Entity, Block):
 
     def __init__(self, name):
         super().__init__()
-        self.server_name = name
-        self.locations = []
-
-    def dump(self):
-        pass
+        self.name = name
 
     def append(self):
         pass

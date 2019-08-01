@@ -1,26 +1,29 @@
 # -*- coding: utf-8 -*-
 """Test ApiGW"""
-from ddd_api_gateway.upstream import Upstream
-
-_endpoints = [
-    "api1.com",
-    "api2.com",
-    "api3.com"
-]
+import pytest
+from ddd_nginx.upstream import Upstream
 
 
-def test_create_api():
-    upstream_test = Upstream("name", _endpoints)
+def test_create_upstream():
+    up = Upstream(name="upstream name")
+    up.append("server url")
 
-    assert upstream_test.name is "name"
-    assert upstream_test.endpoints is _endpoints
-    assert upstream_test.id is not None
+    assert up is not None
+    assert up.id is not None
+    assert up.name == "upstream name"
+    assert up.servers[0] == "server url"
 
 
-def test_api_clone():
-    upstream_test = Upstream("name", _endpoints)
-    clone_api = upstream_test.clone(name="anotherName")
+@pytest.mark.usefixtures("upstream_conf")
+def test_dump_upstream(upstream_conf):
+    up = Upstream(
+        name="warehouse_inventory",
+    )
+    up.append("10.0.0.1:80")
+    up.append("10.0.0.2:80")
+    up.append("10.0.0.3:80")
 
-    assert clone_api.name is "anotherName"
-    assert upstream_test.endpoints is _endpoints
-    assert clone_api.id is not upstream_test.id
+    assert up.dump("upstream.conf.jinja2", {
+        "name": up.name,
+        "servers": up.servers,
+    }) == upstream_conf

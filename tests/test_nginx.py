@@ -10,14 +10,16 @@ from ddd_nginx.exception import NginxError
 
 
 def test_create_nginx():
-    nginx = Nginx(namespace="api")
+    nginx = Nginx(host="oneapi.cc")
+    nginx.namespace = "api"
 
     assert nginx is not None
-    assert nginx.namespace == "api"
+    assert nginx.host is not None
+    assert nginx.namespace == "api." + nginx.host
 
 
 def test_append():
-    nginx = Nginx(namespace="api")
+    nginx = Nginx(host="oneapi.cc")
     a_server = Server(name="api.example.com")
     a_map = Map(MapDefinition(key="$key", value="$value"))
     a_upstream = Upstream(name="upstream name")
@@ -32,3 +34,13 @@ def test_append():
 
     with pytest.raises(NginxError):
         assert nginx.append(None)
+
+
+@pytest.mark.usefixtures("nginx_conf")
+def test_dump_empty(nginx_conf):
+    nginx = Nginx(host="oneapi.cc")
+    nginx.namespace = "api"
+
+    assert nginx.dump("nginx.conf.jinja2", {
+        "namespace": nginx.namespace,
+    }) == nginx_conf

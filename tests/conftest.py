@@ -42,3 +42,8 @@ def upstream_conf():
 @pytest.fixture(name='server_conf')
 def server_conf():
     return _get_test_data('server.conf')
+
+
+@pytest.fixture(name='nginx_conf')
+def nginx_conf():
+    return _get_test_data('nginx.conf')

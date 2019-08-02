@@ -10,12 +10,21 @@ from .exception import NginxError
 
 class Nginx(Aggregate, Block):
 
-    def __init__(self, namespace):
+    def __init__(self, host):
         super().__init__()
-        self.namespace = namespace
+        self._namespace = None
+        self.host = host
         self.upstreams = []
         self.maps = []
         self.servers = []
+
+    @property
+    def namespace(self):
+        return self._namespace
+
+    @namespace.setter
+    def namespace(self, value):
+        self._namespace = value + '.' + self.host
 
     def dumps(self, path):
         pass

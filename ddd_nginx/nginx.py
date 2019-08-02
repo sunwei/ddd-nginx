@@ -2,19 +2,30 @@
 """Domain Driven Design framework."""
 from ddd_base import Aggregate
 from .block import Block
+from .server import Server
+from .upstream import Upstream
+from .map import Map
+from .exception import NginxError
 
 
-class Nginx(Block, Aggregate):
+class Nginx(Aggregate, Block):
 
     def __init__(self, namespace):
         super().__init__()
         self.namespace = namespace
         self.upstreams = []
-        self.map = []
-        self.server = None
+        self.maps = []
+        self.servers = []
 
-    def dump(self):
+    def dumps(self, path):
         pass
 
-    def append(self):
-        pass
+    def append(self, block):
+        if isinstance(block, Server):
+            self.servers.append(block)
+        elif isinstance(block, Map):
+            self.maps.append(block)
+        elif isinstance(block, Upstream):
+            self.upstreams.append(block)
+        else:
+            raise NginxError()

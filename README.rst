@@ -54,17 +54,15 @@ Nginx Hierarchical
 
 .
 ├── nginx.conf
-├── _conf.d
-|   └── default.conf
 ├── api_gateway.conf
 ├── _api_gateway_conf.d
-|   ├──api_oneapi_cc_conf.d
+|   ├──sub_domain_conf.d
 |      ├── root.conf
 |      ├── upstream.conf
 |      ├── map.conf
 |      ├── server.conf
 |      ├── location.conf
-|      └── error_code.conf
+|      └── api_json_errors.conf
 
 
 License

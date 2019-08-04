@@ -1,5 +1,5 @@
-DDD Base Framework
-==================
+DDD Nginx Framework
+===================
 
 |Build Status| |Pypi Status| |Coveralls Status|
 
@@ -65,6 +65,7 @@ Nginx Hierarchical
 |      └── api_json_errors.conf
 
 
+
 License
 -------
 
@@ -78,4 +79,3 @@ See `License file <https://github.com/sunwei/ddd-base/blob/master/LICENSE>`_
    :target: https://badge.fury.io/py/ddd-nginx
 .. |Coveralls Status| image:: https://coveralls.io/repos/github/sunwei/ddd-nginx/badge.svg?branch=master
    :target: https://coveralls.io/github/sunwei/ddd-nginx?branch=master
-

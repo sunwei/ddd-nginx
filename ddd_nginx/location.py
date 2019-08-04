@@ -25,4 +25,3 @@ class Location(ValueObject, Block):
 
     def append(self, block):
         pass
-

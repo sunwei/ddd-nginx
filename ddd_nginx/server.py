@@ -12,4 +12,3 @@ class Server(Entity, Block):
 
     def append(self):
         pass
-

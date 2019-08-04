@@ -47,25 +47,6 @@ Usage
 
 
 
-Nginx Hierarchical
-------------------
-
-::
-
-.
-├── nginx.conf
-├── api_gateway.conf
-├── _api_gateway_conf.d
-|   ├──sub_domain_conf.d
-|      ├── root.conf
-|      ├── upstream.conf
-|      ├── map.conf
-|      ├── server.conf
-|      ├── location.conf
-|      └── api_json_errors.conf
-
-
-
 License
 -------
 

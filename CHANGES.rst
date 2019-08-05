@@ -1,6 +1,11 @@
 Changelog
 =========
 
+0.0.4
+-----
+
+- Clear dependency
+
 0.0.3
 -----
 

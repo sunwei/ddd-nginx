@@ -1,6 +1,11 @@
 Changelog
 =========
 
+0.0.3
+-----
+
+- Dumps nginx to files
+
 0.0.2
 -----
 

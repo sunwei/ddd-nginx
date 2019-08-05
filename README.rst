@@ -23,27 +23,61 @@ Usage
 
 ::
 
-    from ddd_base.value_object import ValueObject
+    from ddd_nginx.nginx import Nginx
+    from ddd_nginx.map import Map, MapKeyParis, MapDefinition
+    from ddd_nginx.server import Server
+    from ddd_nginx.location import Location, ReverseProxyStrategy
+    from ddd_nginx.upstream import Upstream
 
 
-    class TheValueObject(ValueObject):
+    nginx = Nginx(host="oneapi.cc")
+    nginx.namespace = "api"
 
-        def __init__(self, name):
-            super(TheValueObject, self).__init__()
-            self.name = name
+    a_map = Map(MapDefinition(key="$http_apikey", value="$api_client_name"))
+    a_map.append(MapKeyParis("7B5zIqmRGXmrJTFmKa99vcit", "client_one"))
+    a_map.append(MapKeyParis("QzVV6y1EmQFbbxOfRCwyJs35", "client_two"))
+    a_map.append(MapKeyParis("mGcjH8Fv6U9y3BVF9H3Ypb9T", "client_six"))
 
-        def __eq__(self, other):
-            if not isinstance(other, ValueObject):
-                return NotImplemented
+    a_upstream = Upstream(name="warehouse_inventory")
+    a_upstream.append("10.0.0.1:80")
+    a_upstream.append("10.0.0.2:80")
+    a_upstream.append("10.0.0.3:80")
 
-            return self.name == other.name
+    b_upstream = Upstream(name="warehouse_pricing")
+    b_upstream.append("10.0.0.1:80")
+    b_upstream.append("10.0.0.2:80")
+    b_upstream.append("10.0.0.3:80")
 
+    a_location = Location(
+        name="/api/warehouse/inventory",
+        proxy=ReverseProxyStrategy('rewrite', '^ /_warehouse last')
+    )
+    a_location.set_var("$upstream", "warehouse_inventory")
+    b_location = Location(
+        name="/api/warehouse/pricing",
+        proxy=ReverseProxyStrategy('rewrite', '^ /_warehouse last')
+    )
+    b_location.set_var("$upstream", "warehouse_pricing")
+    c_location = Location(
+        name="= /_warehouse",
+        proxy=ReverseProxyStrategy('proxy_pass', 'http://$upstream$request_uri'),
+        scope="internal"
+    )
+    c_location.set_var("$api_name", "Warehouse")
 
-    def test_value_object_compare():
-        a_value_object = TheValueObject("name")
-        b_value_object = TheValueObject("name")
+    a_server = Server(name=nginx.namespace)
+    a_server.set_var("$api_name", "-")
 
-        assert a_value_object.same_as(b_value_object)
+    nginx.append(a_map)
+    nginx.append(a_upstream)
+    nginx.append(b_upstream)
+    nginx.append(a_location)
+    nginx.append(b_location)
+    nginx.append(c_location)
+    nginx.append(a_server)
+
+    root_dir = "./dumps_dir"
+    nginx.dumps(root_dir)
 
 
 

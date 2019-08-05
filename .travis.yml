@@ -10,7 +10,7 @@ install:
 script: tox --recreate
 after_success:
 - py.test --cov=ddd_nginx --cov-report=term-missing tests
-- coveralls
+- coveralls -i
 deploy:
   provider: pypi
   user: sunzhongmou

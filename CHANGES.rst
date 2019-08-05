@@ -1,7 +1,12 @@
 Changelog
 =========
 
-0.0.5
+0.0.7
+-----
+
+- Include jinja2 templates
+
+0.0.6
 -----
 
 - Add json error page configuration file

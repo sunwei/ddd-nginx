@@ -33,7 +33,7 @@ def test_dump_api(location_api):
     )
     a_location.set_var("$upstream", "warehouse_pricing")
 
-    assert a_location.dump("location.jinja2.conf", {
+    assert a_location.dump("location.conf.jinja2", {
         "name": a_location.name,
         "proxy": a_location.proxy,
         "variables": a_location.sets
@@ -49,7 +49,7 @@ def test_dump_policy(location_policy):
     )
     a_location.set_var('$api_name', '"Warehouse"')
 
-    assert a_location.dump("location.jinja2.conf", {
+    assert a_location.dump("location.conf.jinja2", {
         "name": a_location.name,
         "proxy": a_location.proxy,
         "variables": a_location.sets,

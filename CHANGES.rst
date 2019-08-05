@@ -1,6 +1,11 @@
 Changelog
 =========
 
+0.0.8
+-----
+
+- Include template files
+
 0.0.7
 -----
 

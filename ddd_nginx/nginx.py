@@ -51,7 +51,7 @@ class Nginx(Aggregate, Block):
         location_dir = os.path.join(directory, "locations_conf.d")
         make_dir(location_dir)
         for idx, the_location in enumerate(self.locations):
-            a_location = the_location.dump("location.conf.jinja2", {
+            a_location = the_location.dump("location.jinja2.conf", {
                 "name": the_location.name,
                 "proxy": the_location.proxy,
                 "variables": the_location.sets,

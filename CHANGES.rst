@@ -4,6 +4,11 @@ Changelog
 0.0.5
 -----
 
+- Add json error page configuration file
+
+0.0.5
+-----
+
 - Add coverage
 
 0.0.4

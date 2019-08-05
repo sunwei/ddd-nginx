@@ -2,13 +2,13 @@
 """Domain Driven Design framework."""
 import os
 from ddd_base import Aggregate
-from .block import Block
+from .block import Block, TEMPLATE_DIR
 from .server import Server
 from .upstream import Upstream
 from .map import Map
 from .location import Location
 from .exception import NginxError
-from .file_manager import make_dir, create_file
+from .file_manager import make_dir, create_file, copy_file
 
 
 class Nginx(Aggregate, Block):
@@ -80,6 +80,9 @@ class Nginx(Aggregate, Block):
         self._dump_location(directory)
         self._dump_server(directory)
         self._dump_nginx(directory)
+        copy_file(
+            os.path.join(TEMPLATE_DIR, "error_page.conf"),
+            os.path.join(directory, "error_page.conf"))
 
     def append(self, block):
         if isinstance(block, Server):

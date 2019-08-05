@@ -11,7 +11,7 @@ exit:
 
 develop: venv
 	venv/bin/pip install -e . -r requirements/base.txt
-	venv/bin/pip install -e . -r requirements/test.txt
+	venv/bin/pip install -e . -r requirements/ci.txt
 
 install:
 	pip3 install -e . -r requirements/base.txt

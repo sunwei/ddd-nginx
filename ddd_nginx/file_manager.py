@@ -2,6 +2,7 @@
 """Domain Driven Design framework."""
 import os
 import shutil
+from shutil import copyfile
 
 
 def remove_dir(directory):
@@ -17,3 +18,7 @@ def make_dir(directory):
 def create_file(file_path, content):
     with open(file_path, "w") as text_file:
         text_file.write(content)
+
+
+def copy_file(src, dst):
+    copyfile(src, dst)

@@ -44,6 +44,11 @@ def server_conf():
     return _get_test_data('server.conf')
 
 
+@pytest.fixture(name='server_location_conf')
+def server_location_conf():
+    return _get_test_data('server-location.conf')
+
+
 @pytest.fixture(name='nginx_conf')
 def nginx_conf():
     return _get_test_data('nginx.conf')

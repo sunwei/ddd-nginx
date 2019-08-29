@@ -90,10 +90,10 @@ def test_dumps():
     nginx.append(a_map)
     nginx.append(a_upstream)
     nginx.append(b_upstream)
+    nginx.append(a_server)
     nginx.append(a_location)
     nginx.append(b_location)
     nginx.append(c_location)
-    nginx.append(a_server)
 
     root_dir = "./dumps_dir"
     nginx.dumps(root_dir)
@@ -110,4 +110,4 @@ def test_dumps():
     assert os.path.isfile(os.path.join(root_dir, "locations_conf.d/1_location.conf"))
     assert os.path.isfile(os.path.join(root_dir, "locations_conf.d/2_location.conf"))
 
-    remove_dir(root_dir)
+    # remove_dir(root_dir)

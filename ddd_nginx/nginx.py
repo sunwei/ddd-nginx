@@ -62,9 +62,10 @@ class Nginx(Aggregate, Block):
 
     def _dump_server(self):
         def map_server(the_server):
-            return the_server.dump("server.conf.jinja2", {
+            return the_server.dump("server-location.conf.jinja2", {
                 "name": the_server.name,
                 "variables": the_server.sets,
+                "locations": the_server.locations,
             })
 
         return [map_server(a_server) for a_server in self.servers]
@@ -99,6 +100,13 @@ class Nginx(Aggregate, Block):
             os.path.join(TEMPLATE_DIR, "error_page.conf"),
             os.path.join(directory, "error_page.conf"))
 
+        all_in_one = self.dump("all-in-one.conf.jinja2", {
+            "maps": maps,
+            "upstreams": upstreams,
+            "servers": servers,
+        })
+        create_file(os.path.join(directory, "all-in-one.conf"), all_in_one)
+
     def append(self, block):
         if isinstance(block, Server):
             self.servers.append(block)
@@ -108,5 +116,6 @@ class Nginx(Aggregate, Block):
             self.upstreams.append(block)
         elif isinstance(block, Location):
             self.locations.append(block)
+            self.servers[0].append(block)
         else:
             raise NginxError()

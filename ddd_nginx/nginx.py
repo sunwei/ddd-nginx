@@ -101,6 +101,7 @@ class Nginx(Aggregate, Block):
             os.path.join(directory, "error_page.conf"))
 
         all_in_one = self.dump("all-in-one.conf.jinja2", {
+            "namespace": self.namespace,
             "maps": maps,
             "upstreams": upstreams,
             "servers": servers,

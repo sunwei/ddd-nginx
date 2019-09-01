@@ -102,6 +102,7 @@ def test_dumps():
     assert os.path.isdir(os.path.join(root_dir, "locations_conf.d")) is True
     assert os.path.isfile(os.path.join(root_dir, "error_page.conf"))
     assert os.path.isfile(os.path.join(root_dir, "root.conf"))
+    assert os.path.isfile(os.path.join(root_dir, "all-in-one.conf"))
     assert os.path.isfile(os.path.join(root_dir, "0_map.conf"))
     assert os.path.isfile(os.path.join(root_dir, "0_server.conf"))
     assert os.path.isfile(os.path.join(root_dir, "0_upstream.conf"))
@@ -110,4 +111,4 @@ def test_dumps():
     assert os.path.isfile(os.path.join(root_dir, "locations_conf.d/1_location.conf"))
     assert os.path.isfile(os.path.join(root_dir, "locations_conf.d/2_location.conf"))
 
-    # remove_dir(root_dir)
+    remove_dir(root_dir)

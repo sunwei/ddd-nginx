@@ -1,6 +1,11 @@
 Changelog
 =========
 
+0.1.0
+-----
+
+- Provide all in one configure file
+
 0.0.8
 -----
 

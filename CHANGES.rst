@@ -1,6 +1,11 @@
 Changelog
 =========
 
+0.1.1
+-----
+
+- Add server to support tls or not
+
 0.1.0
 -----
 

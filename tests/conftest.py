@@ -44,9 +44,19 @@ def server_conf():
     return _get_test_data('server.conf')
 
 
+@pytest.fixture(name='server_no_tls_conf')
+def server_no_tls_conf():
+    return _get_test_data('server-no-tls.conf')
+
+
 @pytest.fixture(name='server_location_conf')
 def server_location_conf():
     return _get_test_data('server-location.conf')
+
+
+@pytest.fixture(name='server_location_no_tls_conf')
+def server_location_no_tls_conf():
+    return _get_test_data('server-location-no-tls.conf')
 
 
 @pytest.fixture(name='nginx_conf')

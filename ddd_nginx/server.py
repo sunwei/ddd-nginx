@@ -12,6 +12,10 @@ class Server(Entity, Block):
         super().__init__()
         self.name = name
         self.locations = []
+        self.tls = True
+
+    def disable_tls(self):
+        self.tls = False
 
     def append(self, block):
         if isinstance(block, Location):

@@ -5,16 +5,18 @@ server {
     access_log /var/log/nginx/api_access.log {{ name }};
 
     listen 80;
-    listen 443 ssl;
     server_name {{ name }};
 
+{% if tls %}
     # TLS config
+    listen 443 ssl;
     ssl_certificate      /etc/ssl/certs/{{ name }}.crt;
     ssl_certificate_key  /etc/ssl/private/{{ name }}.key;
     ssl_session_cache    shared:SSL:10m;
     ssl_session_timeout  5m;
     ssl_ciphers          HIGH:!aNULL:!MD5;
     ssl_protocols        TLSv1.1 TLSv1.2;
+{% endif %}
 
     # API definitions, one per file
     include locations_conf.d/*.conf;

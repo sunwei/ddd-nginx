@@ -23,7 +23,21 @@ def test_dump_server(server_conf):
     assert sev.dump("server.conf.jinja2", {
         "name": sev.name,
         "variables": sev.sets,
+        "tls": sev.tls,
     }) == server_conf
+
+
+@pytest.mark.usefixtures("server_no_tls_conf")
+def test_dump_server(server_no_tls_conf):
+    sev = Server(
+        name="api.example.com",
+    )
+    sev.set_var("$api_name", "-")
+
+    assert sev.dump("server.conf.jinja2", {
+        "name": sev.name,
+        "variables": sev.sets,
+    }) == server_no_tls_conf
 
 
 @pytest.mark.usefixtures("server_location_conf")
@@ -52,4 +66,34 @@ def test_dump_server_dumps(server_location_conf):
         "name": sev.name,
         "variables": sev.sets,
         "locations": sev.locations,
+        "tls": sev.tls,
     }) == server_location_conf
+
+
+@pytest.mark.usefixtures("server_location_no_tls_conf")
+def test_dump_server_dumps(server_location_no_tls_conf):
+    sev = Server(
+        name="api.example.com",
+    )
+    sev.set_var("$api_name", "-")
+
+    b_location = Location(
+        name="/api/warehouse/pricing",
+        proxy=ReverseProxyStrategy('rewrite', '^ /_warehouse last')
+    )
+    b_location.set_var("$upstream", "warehouse_pricing")
+    sev.append(b_location)
+
+    a_location = Location(
+        name="= /_warehouse",
+        proxy=ReverseProxyStrategy('proxy_pass', 'http://$upstream$request_uri'),
+        scope="internal"
+    )
+    a_location.set_var('$api_name', '"Warehouse"')
+    sev.append(a_location)
+
+    assert sev.dump("server-location.conf.jinja2", {
+        "name": sev.name,
+        "variables": sev.sets,
+        "locations": sev.locations,
+    }) == server_location_no_tls_conf

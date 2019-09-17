@@ -47,8 +47,8 @@ setup(
     url='https://github.com/sunwei/ddd-nginx',
     packages=find_packages(exclude=['tests*']),
     data_files=[
-        ('jinja2', ['ddd_nginx/apigw/*.jinja2']),
-        ('conf', ['ddd_nginx/apigw/*.conf'])
+        ('jinja2', ['ddd_nginx/template/apigw/*.jinja2']),
+        ('conf', ['ddd_nginx/template/apigw/*.conf'])
     ],
     install_requires=REQUIREMENTS,
     classifiers=CLASSIFIERS)

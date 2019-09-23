@@ -20,13 +20,7 @@ server {
 
     # API definitions, one per file
 {% for location in locations %}
-    location {{ location.name }} {
-        {% if location.scope %}internal;{% endif %}
-
-        {% for var in location.sets %}set {{ var.key }} {{ var.value }};{% endfor %}
-
-        {{ location.proxy.strategy }} {{ location.proxy.rule }};
-    }
+    {{ location }}
 {% endfor %}
 
     # Error responses

@@ -2,56 +2,63 @@
 """Test ApiGW"""
 import pytest
 from ddd_nginx.location import Location
-from ddd_nginx.location import ReverseProxyStrategy
+from ddd_nginx.location import LocationProxy, LocationRewrite
 
 
 def test_create_location():
     a_location = Location(
         name="location name",
-        proxy=ReverseProxyStrategy('rewrite', 'change uri'),
-        scope="internal"
+        internal=True
     )
     b_location = Location(
         name="location name",
-        proxy=ReverseProxyStrategy('rewrite', 'change uri'),
-        scope="internal"
+        internal=False
     )
 
     assert a_location is not None
     assert a_location.name == "location name"
-    assert a_location.scope == "internal"
-    assert a_location.proxy.strategy == "rewrite"
-    assert a_location.proxy.rule == "change uri"
-    assert a_location.same_as(b_location)
+    assert a_location.internal is True
+    assert a_location.same_as(b_location) is False
 
 
 @pytest.mark.usefixtures("location_api")
 def test_dump_api(location_api):
-    a_location = Location(
+    source_location = Location(
         name="/api/warehouse/pricing",
-        proxy=ReverseProxyStrategy('rewrite', '^ /_warehouse last')
+        internal=False
     )
-    a_location.set_var("$upstream", "warehouse_pricing")
+    source_location.set_var("$upstream", "warehouse_pricing")
 
-    assert a_location.dump("location.conf.jinja2", {
-        "name": a_location.name,
-        "proxy": a_location.proxy,
-        "variables": a_location.sets
+    destination_location = Location(
+        name="/_warehouse",
+        internal=True
+    )
+    source_location.append(LocationRewrite(destination_location))
+
+    assert source_location.dump("location-rewrite.conf.jinja2", {
+        "name": source_location.name,
+        "variables": source_location.sets,
+        "destination_name": source_location.rewrite.destination.name,
     }) == location_api
+
+    assert source_location.dump_rewrite() == location_api
+    assert source_location.smart_dump() == location_api
 
 
 @pytest.mark.usefixtures("location_policy")
 def test_dump_policy(location_policy):
     a_location = Location(
         name="= /_warehouse",
-        proxy=ReverseProxyStrategy('proxy_pass', 'http://$upstream$request_uri'),
-        scope="internal"
+        internal=True
     )
     a_location.set_var('$api_name', '"Warehouse"')
+    a_location.append(LocationProxy('abc.com'))
 
-    assert a_location.dump("location.conf.jinja2", {
+    assert a_location.dump("location-proxy.conf.jinja2", {
         "name": a_location.name,
-        "proxy": a_location.proxy,
         "variables": a_location.sets,
-        "scope": a_location.scope
+        "host": a_location.proxy.host,
     }) == location_policy
+
+    assert a_location.dump_proxy() == location_policy
+    assert a_location.smart_dump() == location_policy

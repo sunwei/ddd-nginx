@@ -3,4 +3,5 @@ from .nginx import Nginx
 from .upstream import Upstream
 from .map import Map, MapKeyParis, MapDefinition
 from .server import Server
-from .location import Location, ReverseProxyStrategy
+from .location import Location, LocationRewrite, LocationProxy
+from .exception import NginxError, LocationError, ServerError

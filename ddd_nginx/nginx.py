@@ -54,6 +54,7 @@ class Nginx(Aggregate, Block):
             return the_location.dump("location.conf.jinja2", {
                 "name": the_location.name,
                 "proxy": the_location.proxy,
+                "proxy_metadata": the_location.proxy_metadata,
                 "variables": the_location.sets,
                 "scope": the_location.scope
             })

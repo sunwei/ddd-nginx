@@ -6,4 +6,8 @@ location {{ name }} {
     set {{ var.key }} {{ var.value }};
 {% endfor %}
     {{ proxy.strategy }} {{ proxy.rule }};
+{% if scope %}
+    proxy_set_header Host {{ proxy_metadata.host }};
+    proxy_set_header X-Forwarded-For $remote_addr;
+{% endif %}
 }

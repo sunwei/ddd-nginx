@@ -14,20 +14,6 @@ def test_create_upstream():
     assert sev.name == "server name"
 
 
-@pytest.mark.usefixtures("server_conf")
-def test_dump_server(server_conf):
-    sev = Server(
-        name="api.example.com",
-    )
-    sev.set_var("$api_name", "-")
-
-    assert sev.dump("server.conf.jinja2", {
-        "name": sev.name,
-        "variables": sev.sets,
-        "tls": sev.tls,
-    }) == server_conf
-
-
 @pytest.mark.usefixtures("server_no_tls_conf")
 def test_dump_server(server_no_tls_conf):
     sev = Server(
@@ -35,14 +21,38 @@ def test_dump_server(server_no_tls_conf):
     )
     sev.set_var("$api_name", "-")
 
+    source_location = Location(
+        name="/api/warehouse/pricing",
+        internal=False
+    )
+    source_location.set_var("$upstream", "warehouse_pricing")
+
+    destination_location = Location(
+        name="/_warehouse",
+        internal=True
+    )
+    destination_location.set_var('$api_name', '"Warehouse"')
+    destination_location.append(LocationProxy('abc.com'))
+
+    source_location.append(LocationRewrite(destination_location))
+
+    sev.append(source_location)
+    sev.append(destination_location)
+    sev.disable_tls()
+
+    locations_dump = [a_location.add_tab(a_location.smart_dump()) for a_location in sev.locations]
+
     assert sev.dump("server.conf.jinja2", {
         "name": sev.name,
         "variables": sev.sets,
+        "locations": locations_dump,
+        "tls": sev.tls,
     }) == server_no_tls_conf
+    assert sev.smart_dump() == server_no_tls_conf
 
 
-@pytest.mark.usefixtures("server_location_conf")
-def test_dump_server_dumps(server_location_conf):
+@pytest.mark.usefixtures("server_conf")
+def test_dump_server_dumps(server_conf):
     sev = Server(
         name="api.example.com",
     )
@@ -66,14 +76,12 @@ def test_dump_server_dumps(server_location_conf):
     sev.append(source_location)
     sev.append(destination_location)
 
-    locations_dump = [Location.add_tab(a_location.smart_dump()) for a_location in sev.locations]
+    locations_dump = [a_location.add_tab(a_location.smart_dump()) for a_location in sev.locations]
 
-    print('??????')
-    print(locations_dump)
-
-    assert sev.dump("server-location.conf.jinja2", {
+    assert sev.dump("server.conf.jinja2", {
         "name": sev.name,
         "variables": sev.sets,
         "locations": locations_dump,
         "tls": sev.tls,
-    }) == server_location_conf
+    }) == server_conf
+    assert sev.smart_dump() == server_conf

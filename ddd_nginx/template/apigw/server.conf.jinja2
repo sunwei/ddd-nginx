@@ -19,7 +19,9 @@ server {
 {% endif %}
 
     # API definitions, one per file
-    include locations_conf.d/*.conf;
+{% for location in locations %}
+    {{ location }}
+{% endfor %}
 
     # Error responses
     error_page 404 = @400;         # Invalid paths are treated as bad requests

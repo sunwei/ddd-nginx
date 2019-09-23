@@ -20,7 +20,8 @@ class Block:
     def load(self):
         pass
 
-    def dump(self, template_name, render_key_pairs):
+    @staticmethod
+    def dump(template_name, render_key_pairs):
         j2_env = Environment(loader=FileSystemLoader(TEMPLATE_DIR),
                              trim_blocks=True)
         return j2_env.get_template(template_name).render(render_key_pairs)

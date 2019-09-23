@@ -48,7 +48,7 @@ def test_dump_api(location_api):
 @pytest.mark.usefixtures("location_policy")
 def test_dump_policy(location_policy):
     a_location = Location(
-        name="= /_warehouse",
+        name="/_warehouse",
         internal=True
     )
     a_location.set_var('$api_name', '"Warehouse"')

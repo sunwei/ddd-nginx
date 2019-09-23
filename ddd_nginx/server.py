@@ -22,3 +22,13 @@ class Server(Entity, Block):
             self.locations.append(block)
         else:
             raise ServerError()
+
+    def smart_dump(self):
+        locations_dump = [a_location.add_tab(a_location.smart_dump()) for a_location in self.locations]
+
+        return self.dump("server.conf.jinja2", {
+            "name": self.name,
+            "variables": self.sets,
+            "locations": locations_dump,
+            "tls": self.tls,
+        })

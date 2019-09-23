@@ -66,7 +66,7 @@ def test_dump_server_dumps(server_location_conf):
     sev.append(source_location)
     sev.append(destination_location)
 
-    locations_dump = [re.sub(r"\n}", "\n    }", re.sub(r"\n    ", "\n        ", a_location.smart_dump())) for a_location in sev.locations]
+    locations_dump = [Location.add_tab(a_location.smart_dump()) for a_location in sev.locations]
 
     print('??????')
     print(locations_dump)

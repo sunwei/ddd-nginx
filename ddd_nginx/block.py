@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """Domain Driven Design framework."""
 import os
+import re
 from collections import namedtuple
 from jinja2 import Environment, FileSystemLoader
 
@@ -29,3 +30,9 @@ class Block:
 
     def remove(self):
         pass
+
+    @staticmethod
+    def add_tab(body):
+        body = re.sub(r"\n {4}", "\n        ", body)
+        body = re.sub(r"\n}", "\n    }", body)
+        return body

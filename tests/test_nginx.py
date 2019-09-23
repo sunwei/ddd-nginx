@@ -5,7 +5,7 @@ import pytest
 from ddd_nginx.nginx import Nginx
 from ddd_nginx.map import Map, MapKeyParis, MapDefinition
 from ddd_nginx.server import Server
-from ddd_nginx.location import Location, ReverseProxyStrategy
+from ddd_nginx.location import Location, LocationProxy, LocationRewrite
 from ddd_nginx.upstream import Upstream
 from ddd_nginx.exception import NginxError
 from ddd_nginx.file_manager import remove_dir
@@ -69,23 +69,26 @@ def test_dumps():
 
     a_location = Location(
         name="/api/warehouse/inventory",
-        proxy=ReverseProxyStrategy('rewrite', '^ /_warehouse last')
+        internal=False
     )
     a_location.set_var("$upstream", "warehouse_inventory")
     b_location = Location(
         name="/api/warehouse/pricing",
-        proxy=ReverseProxyStrategy('rewrite', '^ /_warehouse last')
+        internal=False
     )
     b_location.set_var("$upstream", "warehouse_pricing")
     c_location = Location(
-        name="= /_warehouse",
-        proxy=ReverseProxyStrategy('proxy_pass', 'http://$upstream$request_uri'),
-        scope="internal"
+        name="/_warehouse",
+        internal=True
     )
     c_location.set_var("$api_name", "Warehouse")
+    c_location.append(LocationProxy('abc.com'))
+    a_location.append(LocationRewrite(c_location))
+    b_location.append(LocationRewrite(c_location))
 
     a_server = Server(name=nginx.namespace)
     a_server.set_var("$api_name", "-")
+    a_server.disable_tls()
 
     nginx.append(a_map)
     nginx.append(a_upstream)

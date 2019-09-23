@@ -50,26 +50,10 @@ class Nginx(Aggregate, Block):
         return [map_upstream(a_upstream) for a_upstream in self.upstreams]
 
     def _dump_location(self):
-        def map_location(the_location):
-            return the_location.dump("location.conf.jinja2", {
-                "name": the_location.name,
-                "proxy": the_location.proxy,
-                "proxy_metadata": the_location.proxy_metadata,
-                "variables": the_location.sets,
-                "scope": the_location.scope
-            })
-
-        return [map_location(a_location) for a_location in self.locations]
+        return [a_location.smart_dump() for a_location in self.locations]
 
     def _dump_server(self):
-        def map_server(the_server):
-            return the_server.dump("server-location.conf.jinja2", {
-                "name": the_server.name,
-                "variables": the_server.sets,
-                "locations": the_server.locations,
-            })
-
-        return [map_server(a_server) for a_server in self.servers]
+        return [a_server.smart_dump() for a_server in self.servers]
 
     def _dump_nginx(self):
         return self.dump("nginx.conf.jinja2", {

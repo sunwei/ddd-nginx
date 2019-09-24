@@ -1,6 +1,11 @@
 Changelog
 =========
 
+0.1.7
+-----
+
+- Https by default
+
 0.1.6
 -----
 
